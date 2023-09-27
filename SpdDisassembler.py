@@ -12,7 +12,7 @@ def disassemble_spd_file(input_spd, output_folder):
 
     # write textures to output path
     for key, value in spd_data.texture_data_dict.items():
-        write_dds_to_file(value, f'{output_folder}\\texture_{key}.dds')
+        write_dds_to_file(value, f'{output_folder}\\tex_{key}.dds')
 
     # Write spdsprs to output path, and cut sprites from dds files
     for key, value in spd_data.sprite_dict.items():
