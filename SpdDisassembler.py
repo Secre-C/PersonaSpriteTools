@@ -18,7 +18,7 @@ def disassemble_spd_file(input_spd, output_folder):
     for key, value in spd_data.sprite_dict.items():
 
         # prepare information to cut sprite from texture 
-        texture_path = f'{output_folder}\\texture_{value.sprite_texture_id}.dds'
+        texture_path = f'{output_folder}\\tex_{value.sprite_texture_id}.dds'
         texture_output = f'{output_folder}\\spr_{value.sprite_id}.dds'
 
         # cut sprite from texture
