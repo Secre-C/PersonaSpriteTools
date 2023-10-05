@@ -92,6 +92,6 @@ input_spd = args[1]
 if len(args) > 2:
     output_folder = args[2]
 else:
-    output_folder = f'{input_spd}_out'
+    output_folder = f'{os.path.splitext(input_spd)[0]}'
 
 disassemble_spd_file(input_spd, output_folder)
