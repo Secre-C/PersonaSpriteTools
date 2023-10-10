@@ -1,14 +1,16 @@
 import os
 import sys
-from Spd.spd import spd
+from Sprite.Spd.spd import spd
 import multiprocessing 
+import Sprite.utils as utils
+
 
 def disassemble_spd_file(input_spd, output_folder):
     # Set maximum processes. Change to 4 if you experience crashing
     MAX_PROCESSES = 8
     
     # Parse Spd
-    spd_data = spd(input_spd)
+    spd_data = spd.read_spd_file(input_spd)
 
     # Check if output path exists. Create it if it doesn't
     if not os.path.exists(output_folder):
@@ -25,18 +27,18 @@ def disassemble_spd_file(input_spd, output_folder):
             # Use the map method to process each sprite in parallel
             results = []
             for key, value in spd_data.sprite_dict.items():
-                result = pool.apply_async(process_sprite, (key, value, output_folder))
+                result = pool.apply_async(export_sprite, (key, value, output_folder))
                 results.append(result)
 
             # Wait for all processes to complete
             pool.close()
             pool.join()
 
-            # Get any potential exceptions raised by the processes
+            # Get any potesntial sexceptions raised by the processes
             for result in results:
                 result.get()
 
-def process_sprite(key, value, output_folder):
+def export_sprite(key, value, output_folder):
     print(f"Exporting sprite id {value.sprite_id}")
 
     # Prepare information to cut sprite from texture
@@ -44,7 +46,7 @@ def process_sprite(key, value, output_folder):
     texture_output = f'{output_folder}\\spr_{value.sprite_id}.dds'
 
     # Cut sprite from texture
-    cut_image(texture_path, value.sprite_x_position, value.sprite_y_position, value.sprite_x_length, value.sprite_y_length, texture_output)
+    utils.cut_from_image(texture_path, value.sprite_x_position, value.sprite_y_position, value.sprite_x_length, value.sprite_y_length, texture_output)
 
     # Zero out sprite x and y
     value.sprite_x_position = 0
@@ -62,24 +64,6 @@ def write_spr_to_file(unpacked_spr, output_file):
     file = open(output_file, 'wb')
     unpacked_spr.write(file)
     file.close()
-
-# Recursive (cuz I like suffering) function that rounds up an integer to a number that won't crash p5r
-def round_up(length, starting_num = 1):
-    # compare the length to 2^n
-    if length > starting_num: 
-        # if it's larger, compare the length to 2^n plus 2^(n-1)
-        if length > (starting_num | starting_num >> 1):
-            # if it's still larger, increase the starting exponent and recurse
-            return round_up(length, starting_num << 1)
-        # return 2^n + 2^(n-1)
-        return (starting_num | starting_num >> 1)
-    # return 2^n
-    return starting_num
-
-def cut_image(image_path, x, y, width, height, output_path):
-    # Cut the sprite out of the original texture and add padding 
-    magick_command = f'magick "{image_path}" -crop {width}x{height}+{x}+{y} -background transparent -extent {round_up(width)}x{round_up(height)} "{output_path}"'
-    os.system(magick_command)
 
 args = sys.argv
 
