@@ -1,4 +1,4 @@
-# SpdDisassembler
+# PersonaSpriteTools
 Deconstructs an Spd or Spr file, separating each sprite it's own texture and sprite entry. Best used to easily make custom spds to be used with the Spd Emulator
 
 ![image](https://github.com/Secre-C/SpdDisassembler/assets/89033534/1baa7f36-ce60-4638-aed3-102aa6d6d545)
