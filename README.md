@@ -10,8 +10,8 @@ Deconstructs an Spd or Spr file, separating each sprite it's own texture and spr
 
 whatever the latest version of [Python](https://www.python.org/downloads/) is
 
-## Scripts
-# SpdDisassembler.py/SprDisassembler.py 
+# Scripts
+## SpdDisassembler.py/SprDisassembler.py 
 Exports each sprite entry into individual files, and cuts those portions from the texture to export into individual textures
 
 Usage is as follows `SpdDisassembler.py <spd file path> <output folder>`
@@ -26,10 +26,10 @@ To use with the spd emulator, simply copy your edited sprite and the accompanyin
 
 Usage for `.Spr` files are the same, but the program will output `.sprt` for sprite entries and `.png` files for the images. `.png` files will need to be reconverted to `.tmx` files before using in-game
 
-# RoundUpTextureDimensions.py
+## RoundUpTextureDimensions.py
 (For DDS and PNG) rounds up a texture's dimensions to the next 2<sup>n</sup> or (2<sup>n</sup> + 2<sup>n-1</sup>), and fills added pixels with transparent pixels
 
-# GenerateSpriteEntryFromTexture.py
+## GenerateSpriteEntryFromTexture.py
 (For DDS and TMX) Creates a sprite entry file (`.sprt` or `.spdspr`) using the dimensions from a provided texture.
 
 ### WARNING
