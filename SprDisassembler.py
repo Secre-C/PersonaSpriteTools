@@ -68,4 +68,4 @@ if len(args) > 2:
 else:
     output_folder = f'{os.path.splitext(input_spr)[0]}'
 
-disassemble_spr_file(input_spr, output_folder, int(input("Enter the image scale multiplier (2 for p4gpc, 4 for p3ppc): ")))
+disassemble_spr_file(input_spr, output_folder, int(input("Enter the image scale multiplier (2 for p4gpc, 4 for p3ppc, 1 for psp/vita games): ")))
