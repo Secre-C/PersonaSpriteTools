@@ -1,5 +1,5 @@
 from struct import Struct
-import Sprite.utils 
+import Sprite.utils as utils 
 
 class spd_texture_entry:
     texture_id: int
@@ -10,7 +10,7 @@ class spd_texture_entry:
     texture_height: int = 0
     unk18: int = 0
     unk1c: int = 0
-    description: str
+    description: str = b'texture'
     texture_entry_struct = Struct('<8i16s')
 
     @classmethod
@@ -39,7 +39,7 @@ class spd_texture_entry:
         new_cls = cls()
 
         new_cls.texture_id = id
-        new_cls.description = description.ljust(0x10)
+        new_cls.description = description.ljust(0x10, '\0')
         (filesize, width, height) = utils.read_dds_metadata(image_path)
         new_cls.texture_data_size = filesize
         new_cls.texture_width = width
@@ -56,7 +56,7 @@ class spd_texture_entry:
             self.texture_height,
             self.unk18,
             self.unk1c,
-            self.description
+            bytes(self.description, 'ascii')
         )
 
         file.write(packed_entry)

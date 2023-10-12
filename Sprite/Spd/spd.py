@@ -33,7 +33,7 @@ class spd:
         # Populate texture data dictionary
         for key, value in cls.texture_dict.items():
             spd_file.seek(value.texture_data_offset)
-            texture_data_bytes = spd_file.read(value.texture_data_size)
+            texture_data_bytes = spd_file.read()
             cls.texture_data_dict[key] = texture_data_bytes
 
         return cls
@@ -45,6 +45,8 @@ class spd:
         SPRITE_ENTRY_SIZE = 0xa0
         
         # Create a new file
+        file = open(output_path, 'wb')
+
         # Build the header
         header = spd_header()
         header.texture_entry_count = len(self.texture_dict)
@@ -57,16 +59,17 @@ class spd:
         header.write(file)
 
         # Write texture entries
-        for key, value in self.texture_dict.items():
+        for value in self.texture_dict.values():
             value.texture_data_offset = texture_data_start_offset
             texture_data_start_offset = texture_data_start_offset + value.texture_data_size
             value.write(file)
 
         # Write sprite entries
-        for key, value in self.sprite_dict.items():
+        for value in self.sprite_dict.values():
             value.write(file)
 
         # Write texture data
-        for key, value in self.texture_data_dict.items():
+        for value in self.texture_data_dict.values():
             file.write(value) 
         
+        file.close()
