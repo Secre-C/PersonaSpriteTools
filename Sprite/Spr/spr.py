@@ -38,6 +38,7 @@ class spr:
             spr_file.seek(cls.texture_pointers[i].offset)
             cls.texture_data.append(tmx.read_from_buffer(spr_file))
 
+        spr_file.close()
         return cls
 
     def build(self, output_path):

@@ -39,6 +39,11 @@ Builds a sprite file using texture and sprite entry files from a folder. sprite 
 
 Usage: `AssembleSprite.py <path to sprite component folder> <type of sprite file to build (spd or spr)>`
 
+## PatchSprite.py
+Patches an existing sprite archive, replacing or appending sprites and textures
+
+Usage: `PatchSprite.py <path to sprite archive> <path to directory containing sprite entries and textures to patch>`
+
 ## RoundUpTextureDimensions.py
 (For DDS and PNG) rounds up a texture's dimensions to the next 2<sup>n</sup> or (2<sup>n</sup> + 2<sup>n-1</sup>), and fills added pixels with transparent pixels.
 

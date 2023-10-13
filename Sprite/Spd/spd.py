@@ -36,6 +36,7 @@ class spd:
             texture_data_bytes = spd_file.read(value.texture_data_size)
             cls.texture_data_dict[key] = texture_data_bytes
 
+        spd_file.close()
         return cls
 
     def build(self, output_path):
