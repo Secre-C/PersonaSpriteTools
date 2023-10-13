@@ -47,6 +47,13 @@ class spd_texture_entry:
         return new_cls
 
     def write(self, file):
+        desc = None
+
+        if isinstance(self.description, bytes):
+            desc = self.description
+        else:
+            desc = bytes(self.description, 'ascii')
+
         packed_entry = self.texture_entry_struct.pack(
             self.texture_id,
             self.unk04,
@@ -56,7 +63,7 @@ class spd_texture_entry:
             self.texture_height,
             self.unk18,
             self.unk1c,
-            bytes(self.description, 'ascii')
+            desc
         )
 
         file.write(packed_entry)
