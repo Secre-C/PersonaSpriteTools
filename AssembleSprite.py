@@ -35,7 +35,11 @@ def assemble_spd(path):
         sprite_file.sprite_dict[id] = spd_sprite_entry.read_from_file(sprite_path)
 
         if os.path.isfile(sprite_texture_path):
-            new_texture_id = max(sprite_file.texture_dict.keys()) + 1
+            new_texture_id = 0
+
+            if len(sprite_file.texture_dict) != 0:
+                new_texture_id = max(sprite_file.texture_dict.keys()) + 1
+
             sprite_file.texture_dict[new_texture_id] = spd_texture_entry.create(new_texture_id, f'sprite_{id}', sprite_texture_path)
             sprite_file.sprite_dict[id].sprite_texture_id = new_texture_id
             sprite_file.texture_data_dict[new_texture_id] = open(sprite_texture_path, 'rb').read()
