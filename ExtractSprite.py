@@ -29,11 +29,13 @@ def extract_spd(path):
         os.mkdir(sprite_path)
     
     for key, value in sprite_file.texture_data_dict.items():
+        print(f'Extracting Texture ID {key}')
         with open(sprite_path + f'tex_{key}.dds', 'wb') as texture:
             print(len(value))
             texture.write(value)
 
     for key, value in sprite_file.sprite_dict.items():
+        print(f'Extracting Sprite ID {key}')
         with open(sprite_path + f'spr_{key}.spdspr', 'wb') as sprite:
             value.write(sprite)
 
@@ -45,10 +47,12 @@ def extract_spr(path):
         os.mkdir(sprite_path)
  
     for i, texture in enumerate(sprite_file.texture_data):
+        print(f'Extracting Texture ID {key}')
         with open(sprite_path + f'tex_{i}.tmx', 'wb') as texture_file:
             texture.write(texture_file)
 
     for i, sprite in enumerate(sprite_file.sprite_list):
+        print(f'Extracting Texture ID {key}')
         with open(sprite_path + f'spr_{i}.sprt', 'wb') as sprite_file:
             sprite.write(sprite_file)
 

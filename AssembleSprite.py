@@ -24,11 +24,13 @@ def assemble_spd(path):
     sprite_ids = get_ids_from_filenames(path, 'spr', f'*.{sprite_extension}')
     
     for id in texture_ids:
+        print(f'Adding texture id {id}')
         texture_path = path + '\\' + f'tex_{id}.{texture_extension}'
         sprite_file.texture_dict[id] = spd_texture_entry.create(id, f'texture{id}', texture_path)
         sprite_file.texture_data_dict[id] = open(texture_path, 'rb').read()
 
     for id in sprite_ids:
+        print(f'Adding sprite id {id}')
         sprite_path = path + '\\' + f'spr_{id}.{sprite_extension}'
         sprite_texture_path = path + '\\' + f'spr_{id}.{texture_extension}'
 
@@ -58,11 +60,13 @@ def assemble_spr(path):
     sprite_ids = get_ids_from_filenames(path, 'spr', f'*.{sprite_extension}')
     
     for id in texture_ids:
+        print(f'Adding texture id {id}')
         texture_path = path + '\\' + f'tex_{id}.{texture_extension}'
         sprite_file.texture_data.append(tmx.read_from_buffer(open(texture_path, 'rb')))
 
     last_id = 0
     for id in sprite_ids:
+        print(f'Adding sprite id {id}')
         if id != last_id + 1:
             for i in range(0, id - last_id):
                 sprite_file.sprite_list.append(spr_sprite_entry())

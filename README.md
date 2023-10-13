@@ -26,13 +26,16 @@ To use with the spd emulator, simply copy your edited sprite and the accompanyin
 
 Usage for `.Spr` files are the same, but the program will output `.sprt` for sprite entries and `.png` files for the images. `.png` files will need to be reconverted to `.tmx` files before using in-game
 
+### WARNING
+do NOT use this when replacing sprites that have button prompts next to them. They need to be in a full sized texture otherwise the button next to them won't be in the right place.
+
 ## ExtractSprite.py
 Exports unmodified sprite textures and sprite entries.
 
 Usage: `ExtractSprite.py <path to .spd or .spr>`
 
 ## AssembleSprite.py
-Builds a sprite file using texture and sprite entry files from a folder
+Builds a sprite file using texture and sprite entry files from a folder. sprite entry files (`.sprt/.spdspr`) should be named `spr_xx` where `xx` is the id of the sprite. Textures can be named either `tex_xx` or `spr_xx`. `spr` textures will only be included if there's an accompanying sprite entry file with the same name.
 
 Usage: `AssembleSprite.py <path to sprite component folder> <type of sprite file to build (spd or spr)>`
 
@@ -46,5 +49,3 @@ Usage: `RoundUpTextureDimensions.py <path to texture>`
 
 Usage: `GenerateSpriteEntryFromTexture.py <path to texture>`
 
-### WARNING
-do NOT use this when replacing sprites that have button prompts next to them. Those need to be in the full sized texture otherwise the button next to them won't show.
