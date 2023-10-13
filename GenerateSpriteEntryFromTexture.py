@@ -43,4 +43,4 @@ for arg in args:
         GenerateSpdSprite(arg, int(input(f'input the id of the generated sprite: ')),
                           int(input(f'input the sprite scale mulitplier (2 for p5rpc, 1 for every other version of p5/r): ')))
     elif os.path.splitext(arg)[1] == '.tmx':
-        GenerateSprSprite(arg, int(input('input the sprite scale divisor(2 for p4gpc, 4 for p3ppc): '))) 
+        GenerateSprSprite(arg, int(input('input the sprite scale divisor (2 for p4gpc, 4 for p3ppc, 1 for psp/vita): '))) 
