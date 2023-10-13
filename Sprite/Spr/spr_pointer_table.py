@@ -17,6 +17,12 @@ class spr_pointer_table:
 
         return this 
 
+    @classmethod
+    def create(cls, offset):
+        this = cls()
+        this.offset = offset
+        return this
+
     def write(self, file):
         pointer_bytes = self.spr_pointer_table_struct.pack(self.unk00, self.offset)
         file.write(pointer_bytes)

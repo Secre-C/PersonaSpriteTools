@@ -12,12 +12,14 @@ class tmx:
     unk16: int
     unk18: int
     unk1c: int
+    unk20: int
+    comment: str = b'texture'.ljust(28, b'\0')
     tmx_data = None
-    tmx_header_struct = Struct('<2h3i4h2i')
+    tmx_header_struct = Struct('<2h3i4h3i28s')
 
     @classmethod
     def read_from_buffer(cls, file):
-        unpacked_header = cls.tmx_header_struct.unpack(file.read(0x20))
+        unpacked_header = cls.tmx_header_struct.unpack(file.read(0x40))
 
         this = cls()
 
@@ -32,8 +34,10 @@ class tmx:
         this.unk16 = unpacked_header[8]
         this.unk18 = unpacked_header[9]
         this.unk1c = unpacked_header[10]
+        this.unk20 = unpacked_header[11]
+        this.comment = unpacked_header[12]
 
-        this.tmx_data = file.read(this.file_size - 0x20)
+        this.tmx_data = file.read(this.file_size - 0x40)
 
         return this
 
@@ -49,7 +53,9 @@ class tmx:
             self.height,
             self.unk16,
             self.unk18,
-            self.unk1c
+            self.unk1c,
+            self.unk20,
+            self.comment
         )
 
         file.write(header_bytes)

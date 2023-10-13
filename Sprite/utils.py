@@ -22,15 +22,14 @@ def read_dds_metadata(image_path):
     return (filesize, width, height)
 
 def read_tmx_metadata(image_path):
-    tmx_file = open(image_path, 'rb')
+    with open(image_path, 'rb') as tmx_file:
+        tmx_data = tmx.read_from_buffer(tmx_file)
+        
+        file_size = tmx_data.file_size
+        width = tmx_data.width
+        height = tmx_data.height
 
-    tmx_data = tmx.read_from_buffer(tmx_file)
-    
-    file_size = tmx_data.file_size
-    width = tmx_data.width
-    height = tmx_data.height
-
-    return (file_size, width, height)
+        return (file_size, width, height)
 
 def convert_tmx_to_png(image_path, output_path):
     current_path = os.path.abspath(os.path.dirname(sys.argv[0])) + '\\';

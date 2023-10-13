@@ -9,7 +9,7 @@ def disassemble_spr_file(input_spr, output_folder, multiplier):
     MAX_PROCESSES = 1
     
     # Parse spr
-    spr_data = spr.read_spr_file(input_spr)
+    spr_data = spr.read_file(input_spr)
 
     # Check if output path exists. Create it if it doesn't
     if not os.path.exists(output_folder):

@@ -13,7 +13,7 @@ class spr:
     texture_data: list = [] 
 
     @classmethod
-    def read_spr_file(cls, file_path: str):
+    def read_file(cls, file_path: str):
         # Open spr file and read the header
         spr_file = open(file_path, 'rb')
         cls.header = spr_header.read_from_buffer(spr_file)
@@ -43,31 +43,50 @@ class spr:
     def build(self, output_path):
         # constants
         HEADER_SIZE = 0x20
+        POINTER_SIZE = 0x8
         SPRITE_ENTRY_SIZE = 0x80
         
         # Create a new file
+        file = open(output_path, 'wb')
+
         # Build the header
         header = spr_header()
-        header.texture_entry_count = len(self.texture_list)
+        header.texture_entry_count = len(self.texture_data)
         header.sprite_entry_count = len(self.sprite_list)
-        header.texture_entry_start_offset = HEADER_SIZE 
-        header.sprite_entry_start_offset = HEADER_SIZE + (TEXTURE_ENTRY_SIZE * header.texture_entry_count) 
-        texture_data_start_offset = header.sprite_entry_start_offset + (SPRITE_ENTRY_SIZE * header.sprite_entry_count)
+        header.texture_entry_start_offset = HEADER_SIZE
+        header.sprite_entry_start_offset = HEADER_SIZE + (POINTER_SIZE * header.texture_entry_count) 
+
+        sprite_data_offset = header.sprite_entry_start_offset + (POINTER_SIZE * header.sprite_entry_count)
+        texture_data_offset = sprite_data_offset + (SPRITE_ENTRY_SIZE * header.sprite_entry_count)
+
+        # Calculate filesize
+        file_size: int = texture_data_offset
+        for texture in self.texture_data:
+            file_size += texture.file_size
+
+        header.file_size = file_size  
 
         # Write header to file
         header.write(file)
 
-        # Write texture entries
-        for key, value in self.texture_list.items():
-            value.texture_data_offset = texture_data_start_offset
-            texture_data_start_offset = texture_data_start_offset + value.texture_data_size
-            value.write(file)
+        # Write texture pointers
+        for texture in self.texture_data:
+            pointer = spr_pointer_table.create(texture_data_offset)
+            pointer.write(file)
+            texture_data_offset += texture.file_size
+
+        # Write sprite pointers
+        for i, sprite in enumerate(self.sprite_list):
+            pointer = spr_pointer_table.create(sprite_data_offset  + (SPRITE_ENTRY_SIZE * i))
+            pointer.write(file)
 
         # Write sprite entries
-        for key, value in self.sprite_list.items():
-            value.write(file)
+        for sprite in self.sprite_list:
+            sprite.write(file)
 
         # Write texture data
-        for key, value in self.texture_data_dict.items():
-            file.write(value) 
+        for texture in self.texture_data:
+            texture.write(file) 
+
+        file.close()
  

@@ -40,38 +40,18 @@ class spr_sprite_entry:
 
         this = cls()
 
-        this.unk0x00 = unpacked_sprite_entry[0]
-        this.comment = unpacked_sprite_entry[1]
-        this.texture_index = unpacked_sprite_entry[2]
-        this.unk0x18 = unpacked_sprite_entry[3]
-        this.unk0x1C = unpacked_sprite_entry[4]
-        this.unk0x20 = unpacked_sprite_entry[5]
-        this.unk0x24 = unpacked_sprite_entry[6]
-        this.unk0x28 = unpacked_sprite_entry[7]
-        this.unk0x2C = unpacked_sprite_entry[8]
-        this.unk0x30 = unpacked_sprite_entry[9]
-        this.unk0x34 = unpacked_sprite_entry[10]
-        this.unk0x38 = unpacked_sprite_entry[11]
-        this.unk0x3C = unpacked_sprite_entry[12]
-        this.unk0x40 = unpacked_sprite_entry[13]
-        this.offset_x = unpacked_sprite_entry[14]
-        this.offset_y = unpacked_sprite_entry[15]
-        this.unk0x4C = unpacked_sprite_entry[16]
-        this.unk0x50 = unpacked_sprite_entry[17]
-        this.sprite_x_position = unpacked_sprite_entry[18]
-        this.sprite_y_position = unpacked_sprite_entry[19]
-        this.sprite_x_length = unpacked_sprite_entry[20]
-        this.sprite_y_length = unpacked_sprite_entry[21]
-        this.unk0x64 = unpacked_sprite_entry[22]
-        this.unk0x68 = unpacked_sprite_entry[23]
-        this.unk0x6C = unpacked_sprite_entry[24]
-        this.unk0x70 = unpacked_sprite_entry[25]
-        this.unk0x74 = unpacked_sprite_entry[26]
-        this.unk0x78 = unpacked_sprite_entry[27]
-        this.unk0x7C = unpacked_sprite_entry[28]
-
+        cls.populateMembers(this, unpacked_sprite_entry)
+        
         return this
 
+    @classmethod
+    def read_from_file(cls, path):
+        unpacked_sprite_entry = cls.sprite_entry_struct.unpack(open(path, 'rb').read())
+
+        this = cls()
+        cls.populateMembers(this, unpacked_sprite_entry)
+        return this
+                
     def write(self, file):
         entry_bytes = self.sprite_entry_struct.pack(
             self.unk0x00,
@@ -106,3 +86,34 @@ class spr_sprite_entry:
         )
 
         file.write(entry_bytes)
+
+    def populateMembers(cls, unpacked_sprite_entry):
+        cls.unk0x00 = unpacked_sprite_entry[0]
+        cls.comment = unpacked_sprite_entry[1]
+        cls.texture_index = unpacked_sprite_entry[2]
+        cls.unk0x18 = unpacked_sprite_entry[3]
+        cls.unk0x1C = unpacked_sprite_entry[4]
+        cls.unk0x20 = unpacked_sprite_entry[5]
+        cls.unk0x24 = unpacked_sprite_entry[6]
+        cls.unk0x28 = unpacked_sprite_entry[7]
+        cls.unk0x2C = unpacked_sprite_entry[8]
+        cls.unk0x30 = unpacked_sprite_entry[9]
+        cls.unk0x34 = unpacked_sprite_entry[10]
+        cls.unk0x38 = unpacked_sprite_entry[11]
+        cls.unk0x3C = unpacked_sprite_entry[12]
+        cls.unk0x40 = unpacked_sprite_entry[13]
+        cls.offset_x = unpacked_sprite_entry[14]
+        cls.offset_y = unpacked_sprite_entry[15]
+        cls.unk0x4C = unpacked_sprite_entry[16]
+        cls.unk0x50 = unpacked_sprite_entry[17]
+        cls.sprite_x_position = unpacked_sprite_entry[18]
+        cls.sprite_y_position = unpacked_sprite_entry[19]
+        cls.sprite_x_length = unpacked_sprite_entry[20]
+        cls.sprite_y_length = unpacked_sprite_entry[21]
+        cls.unk0x64 = unpacked_sprite_entry[22]
+        cls.unk0x68 = unpacked_sprite_entry[23]
+        cls.unk0x6C = unpacked_sprite_entry[24]
+        cls.unk0x70 = unpacked_sprite_entry[25]
+        cls.unk0x74 = unpacked_sprite_entry[26]
+        cls.unk0x78 = unpacked_sprite_entry[27]
+        cls.unk0x7C = unpacked_sprite_entry[28]

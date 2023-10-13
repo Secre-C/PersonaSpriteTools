@@ -10,7 +10,7 @@ class spd:
     texture_data_dict: OrderedDict = {}
 
     @classmethod
-    def read_spd_file(cls, file_path: str):
+    def read_file(cls, file_path: str):
         # Open Spd file and read the header
         spd_file = open(file_path, 'rb')
         cls.header = spd_header.read_from_buffer(spd_file)
@@ -33,7 +33,7 @@ class spd:
         # Populate texture data dictionary
         for key, value in cls.texture_dict.items():
             spd_file.seek(value.texture_data_offset)
-            texture_data_bytes = spd_file.read()
+            texture_data_bytes = spd_file.read(value.texture_data_size)
             cls.texture_data_dict[key] = texture_data_bytes
 
         return cls
@@ -54,6 +54,14 @@ class spd:
         header.texture_entry_start_offset = HEADER_SIZE 
         header.sprite_entry_start_offset = HEADER_SIZE + (TEXTURE_ENTRY_SIZE * header.texture_entry_count) 
         texture_data_start_offset = header.sprite_entry_start_offset + (SPRITE_ENTRY_SIZE * header.sprite_entry_count)
+
+        total_texture_size: int = 0
+        
+        for texture in self.texture_dict.values():
+            total_texture_size += texture.texture_data_size
+            
+        # Calculate filesize
+        header.file_size = HEADER_SIZE + TEXTURE_ENTRY_SIZE * len(self.texture_dict) + SPRITE_ENTRY_SIZE * len(self.sprite_dict) + total_texture_size
 
         # Write header to file
         header.write(file)
