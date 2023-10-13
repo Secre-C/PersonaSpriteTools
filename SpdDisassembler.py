@@ -10,7 +10,7 @@ def disassemble_spd_file(input_spd, output_folder):
     MAX_PROCESSES = 8
     
     # Parse Spd
-    spd_data = spd.read_spd_file(input_spd)
+    spd_data = spd.read_file(input_spd)
 
     # Check if output path exists. Create it if it doesn't
     if not os.path.exists(output_folder):
