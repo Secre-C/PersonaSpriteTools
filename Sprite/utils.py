@@ -33,10 +33,10 @@ def read_tmx_metadata(image_path):
 
 def convert_tmx_to_png(image_path, output_path):
     current_path = os.path.abspath(os.path.dirname(sys.argv[0])) + '\\';
-    tmx_converter = current_path + r"tmx_to_png\tmx_to_png.exe"
+    tmx_converter = current_path + r"TmxToPng\TmxToPng.exe"
 
     print(tmx_converter)
-    command = f'{tmx_converter} "{image_path}" "{output_path}"'
+    command = f'{tmx_converter} "{image_path}"'
     os.system(command)
 
 def cut_from_image(image_path, x, y, width, height, output_path):
