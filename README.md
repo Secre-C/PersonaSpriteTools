@@ -6,7 +6,7 @@ Deconstructs an Spd or Spr file, separating each sprite it's own texture and spr
 ## Prerequisites
 [ImageMagick](https://imagemagick.org/script/download.php)
 
-[.NET 7.0](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) (for spr disassembly, used by the tmx_to_png program by [MadMax1960](https://github.com/MadMax1960))
+[.NET 7.0](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) (for spr disassembly, used by the TmxToPng program)
 
 whatever the latest version of [Python](https://www.python.org/downloads/) is
 
