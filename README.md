@@ -30,7 +30,7 @@ Usage for `.Spr` files are the same, but the program will output `.sprt` for spr
 do NOT use this when replacing sprites that have button prompts next to them. They need to be in a full sized texture otherwise the button next to them won't be in the right place.
 
 ## ExtractSprite.py
-Exports unmodified sprite textures and sprite entries.
+Exports unmodified sprite textures and sprite entries. Texture names will include the ids of all the sprites that point to them, unless the filename is too long where it will instead use the texture id.
 
 Usage: `ExtractSprite.py <path to .spd or .spr>`
 
