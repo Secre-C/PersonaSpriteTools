@@ -30,13 +30,20 @@ def extract_spd(path):
     
     for key, value in sprite_file.texture_data_dict.items():
         print(f'Extracting Texture ID {key}')
-        with open(sprite_path + f'tex_{key}.dds', 'wb') as texture:
+        tex_out = sprite_path + f'\\tex_{key}'
+
+        if not os.path.isdir(tex_out):
+            os.mkdir(tex_out)
+            
+        with open(tex_out + f'\\tex_{key}.dds', 'wb') as texture:
             print(len(value))
             texture.write(value)
 
     for key, value in sprite_file.sprite_dict.items():
+        tex_out = sprite_path + f'\\tex_{value.sprite_texture_id}'
+
         print(f'Extracting Sprite ID {key}')
-        with open(sprite_path + f'spr_{key}.spdspr', 'wb') as sprite:
+        with open(tex_out + f'\\spr_{key}.spdspr', 'wb') as sprite:
             value.write(sprite)
 
 def extract_spr(path):
@@ -47,13 +54,20 @@ def extract_spr(path):
         os.mkdir(sprite_path)
  
     for i, texture in enumerate(sprite_file.texture_data):
-        print(f'Extracting Texture ID {key}')
-        with open(sprite_path + f'tex_{i}.tmx', 'wb') as texture_file:
+        tex_out = sprite_path + f'\\tex_{i}'
+
+        if not os.path.isdir(tex_out):
+            os.mkdir(tex_out)
+
+        print(f'Extracting Texture ID {i}')
+        with open(tex_out + f'\\tex_{i}.tmx', 'wb') as texture_file:
             texture.write(texture_file)
 
     for i, sprite in enumerate(sprite_file.sprite_list):
-        print(f'Extracting Texture ID {key}')
-        with open(sprite_path + f'spr_{i}.sprt', 'wb') as sprite_file:
+        tex_out = sprite_path + f'\\tex_{sprite.texture_index}'
+
+        print(f'Extracting Sprite ID {i}')
+        with open(tex_out + f'\\spr_{i}.sprt', 'wb') as sprite_file:
             sprite.write(sprite_file)
 
 extract_sprite(sys.argv[1])

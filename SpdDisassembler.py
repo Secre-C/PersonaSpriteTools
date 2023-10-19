@@ -18,7 +18,10 @@ def disassemble_spd_file(input_spd, output_folder):
 
     # write textures to output path
     for key, value in spd_data.texture_data_dict.items():
-        write_dds_to_file(value, f'{output_folder}\\tex_{key}.dds')
+        tex_out = f'{output_folder}\\tex_{key}'
+        if (not os.path.isdir(tex_out)):
+            os.mkdir(tex_out)
+        write_dds_to_file(value, f'{tex_out}\\tex_{key}.dds')
     
     # le epic chat gpt copy paste
     if __name__ == "__main__":
@@ -40,10 +43,11 @@ def disassemble_spd_file(input_spd, output_folder):
 
 def export_sprite(key, value, output_folder):
     print(f"Exporting sprite id {value.sprite_id}")
+    tex_out = f'{output_folder}\\tex_{value.sprite_texture_id}\\'
 
     # Prepare information to cut sprite from texture
-    texture_path = f'{output_folder}\\tex_{value.sprite_texture_id}.dds'
-    texture_output = f'{output_folder}\\spr_{value.sprite_id}.dds'
+    texture_path = f'{tex_out}\\tex_{value.sprite_texture_id}.dds'
+    texture_output = f'{tex_out}\\spr_{value.sprite_id}.dds'
 
     # Cut sprite from texture
     utils.cut_from_image(texture_path, value.sprite_x_position, value.sprite_y_position, value.sprite_x_length, value.sprite_y_length, texture_output)
@@ -53,7 +57,7 @@ def export_sprite(key, value, output_folder):
     value.sprite_y_position = 0
 
     # Write spdspr to file
-    write_spr_to_file(value, f'{output_folder}\\spr_{key}.spdspr')
+    write_spr_to_file(value, f'{tex_out}\\spr_{key}.spdspr')
 
 def write_dds_to_file(dds_bytes, output_file):
     file = open(output_file, 'wb')
