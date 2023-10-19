@@ -56,3 +56,42 @@ def round_up(length, starting_num = 1):
         return (starting_num | starting_num >> 1)
     # return 2^n
     return starting_num
+
+# Generate a file name for full textures to fill the void created by no more texture replacement
+def generate_spr_texture_name(spr_id: list):
+    result = 'spr_'
+    result += str(spr_id[0])
+    last_id: int = spr_id[0]
+    is_range: bool = False
+
+    for i in range(1, len(spr_id)):
+        if last_id == spr_id[i] - 1: 
+            if not is_range:
+               result += '-'
+               is_range = True
+        else:
+            if is_range:
+                result += str(last_id) + '_' + str(spr_id[i])
+                is_range = False
+            else:
+                result += '_' + str(spr_id[i])
+        last_id = spr_id[i]
+    
+    if is_range:
+        result += str(spr_id[-1])
+
+    return result
+
+def get_sprites_by_texture_id(sprite_collection, texture_id: int, file_type='spd'):
+    result = []
+
+    if file_type == 'spd':
+        for sprite in sprite_collection.values():
+            if sprite.sprite_texture_id == texture_id:
+                result.append(sprite.sprite_id)
+    elif file_type == 'spr':
+        for i, sprite in enumerate(sprite_collection):
+            if sprite.texture_index == texture_id:
+                result.append(i)
+
+    return result
