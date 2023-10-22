@@ -57,7 +57,8 @@ class spr:
         header.texture_entry_start_offset = HEADER_SIZE
         header.sprite_entry_start_offset = HEADER_SIZE + (POINTER_SIZE * header.texture_entry_count) 
 
-        sprite_data_offset = header.sprite_entry_start_offset + (POINTER_SIZE * header.sprite_entry_count)
+        padding_size = ((header.texture_entry_count + header.sprite_entry_count) * 8) % 0x10
+        sprite_data_offset = header.sprite_entry_start_offset + (POINTER_SIZE * header.sprite_entry_count) + padding_size
         texture_data_offset = sprite_data_offset + (SPRITE_ENTRY_SIZE * header.sprite_entry_count)
 
         # Calculate filesize
@@ -80,6 +81,9 @@ class spr:
         for i, sprite in enumerate(self.sprite_list):
             pointer = spr_pointer_table.create(sprite_data_offset  + (SPRITE_ENTRY_SIZE * i))
             pointer.write(file)
+
+        # Write sprite padding
+        file.write(bytearray(padding_size))
 
         # Write sprite entries
         for sprite in self.sprite_list:
