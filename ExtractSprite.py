@@ -36,17 +36,10 @@ def extract_spd(path):
         if not os.path.isdir(tex_out):
             os.mkdir(tex_out)
             
-        texture_name = os.path.join(tex_out, utils.generate_spr_texture_name(utils.get_sprites_by_texture_id(sprite_file.sprite_dict, key, file_type='spd')))
+        texture_name = os.path.join(sprite_path, f'tex_{key}.dds')
 
-        print(texture_name)
-        try:
-            with open(texture_name, 'wb') as texture:
-                print(len(value))
-                texture.write(value)
-        except OSError:
-            with open(tex_out + f'\\tex_{key}.dds', 'wb') as texture:
-                print(len(value))
-                texture.write(value)
+        with open(texture_name, 'wb') as texture:
+            texture.write(value)
 
     for key, value in sprite_file.sprite_dict.items():
         tex_out = sprite_path + f'\\tex_{value.sprite_texture_id}'
@@ -70,14 +63,10 @@ def extract_spr(path):
 
 
         print(f'Extracting Texture ID {i}')
-        texture_name = utils.generate_spr_texture_name(utils.get_sprites_by_texture_id(sprite_file.sprite_list, i, file_type='spr')) 
+        texture_name = os.path.join(sprite_path, f'tex_{i}.tmx')
 
-        try:
-            with open(texture_name, 'wb') as texture_file:
-                texture.write(texture_file)
-        except OSError:
-            with open(os.path.join(tex_out,  f'tex_{i}.tmx'), 'wb') as texture_file:
-                texture.write(texture_file)
+        with open(texture_name, 'wb') as texture_file:
+            texture.write(texture_file)
 
     for i, sprite in enumerate(sprite_file.sprite_list):
         tex_out = sprite_path + f'\\tex_{sprite.texture_index}'
