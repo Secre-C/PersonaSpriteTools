@@ -17,11 +17,8 @@ def disassemble_spr_file(input_spr, output_folder, multiplier):
 
     # write textures to output path
     for i in range(0, spr_data.header.texture_entry_count):
-        tex_out = f'{output_folder}\\tex_{i}'
-        if not os.path.isdir(tex_out):
-            os.mkdir(tex_out)
-        write_tmx_to_file(spr_data.texture_data[i], f'{tex_out}\\tex_{i}.tmx')
-        utils.convert_tmx_to_png(f'{tex_out}\\tex_{i}.tmx', f'{tex_out}\\tex_{i}.png')
+        write_tmx_to_file(spr_data.texture_data[i], f'{output_folder}\\tex_{i}.tmx')
+        utils.convert_tmx_to_png(f'{output_folder}\\tex_{i}.tmx', f'{output_folder}\\tex_{i}.png')
 
     for i in range(0, spr_data.header.sprite_entry_count):
         export_sprite(i, spr_data.sprite_list[i], output_folder, multiplier)
@@ -30,9 +27,8 @@ def export_sprite(key, value, output_folder, multiplier = 1):
     print(f"Exporting sprite id {key}")
 
     # Prepare information to cut sprite from texture
-    tex_out = f'{output_folder}\\tex_{value.texture_index}'
-    texture_path = f'{tex_out}\\tex_{value.texture_index}.png'
-    texture_output = f'{tex_out}\\spr_{key}.png'
+    texture_path = f'{output_folder}\\tex_{value.texture_index}.png'
+    texture_output = f'{output_folder}\\spr_{key}.png'
 
     # Cut sprite from texture
     utils.cut_from_image(texture_path, value.sprite_x_position * multiplier, value.sprite_y_position * multiplier, 
@@ -47,7 +43,7 @@ def export_sprite(key, value, output_folder, multiplier = 1):
     value.sprite_y_position = 0
 
     # Write .sprt to file
-    write_spr_to_file(value, f'{tex_out}\\spr_{key}.sprt')
+    write_spr_to_file(value, f'{output_folder}\\spr_{key}.sprt')
 
 def write_tmx_to_file(tmx, output_file):
     file = open(output_file, 'wb')
